@@ -20,7 +20,8 @@ for(var i = 0; i < enemyNames.length; i++) {
 // "LOSE" - Player robot's health is zero or less
 
 var fight = function(enemyName) {
-    // Alert players that they are starting the round
+    while(enemyHealth > 0) {
+        // Alert players that they are starting the round
     window.alert("Welcome to Robot Gladiators!");
     
     // Prompt fight
@@ -74,9 +75,14 @@ var fight = function(enemyName) {
     } else {
         window.alert("You need to pick a valid option. Try again!")
     }
+    }
+
+
 };
 
 // used for loop to make repeat
 for(var i = 0; i < enemyNames.length; i++) {
-    fight(enemyNames[i]);
+    var pickedEnemyName = enemyNames[i];
+    enemyHealth = 50;
+    fight(pickedEnemyName);
   }
