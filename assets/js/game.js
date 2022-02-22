@@ -4,8 +4,10 @@ var randomNumber = function (min, max) {
   return value;
 };
 
-var fightOrSkip = function() {
-  var promptFight = window.prompt("Would you like to FIGHT or SKIP this battle? Enter 'FIGHT' or 'SKIP' to choose.");
+var fightOrSkip = function () {
+  var promptFight = window.prompt(
+    "Would you like to FIGHT or SKIP this battle? Enter 'FIGHT' or 'SKIP' to choose."
+  );
 
   if (promptFight === "" || promptFight === null) {
     window.alert("You need to provide a valid answer! Please try again.");
@@ -29,42 +31,50 @@ var fightOrSkip = function() {
     }
   }
   return false;
-}
-
-
-
+};
 
 var fight = function (enemy) {
+  //keeps track of who goes first
+  var isPlayerTurn = true;
+
+  if (Math.random() > 0.5) {
+    isPlayerTurn = false;
+  }
+
   while (playerInfo.health > 0 && enemy.health > 0) {
-    if (fightOrSkip()) {
-      break;
-    }
+    if (isPlayerTurn) {
+      if (fightOrSkip()) {
+        break;
+      }
 
-
-    // Player Attack Phase
-    var damage = randomNumber(playerInfo.attack - 3, playerInfo.attack);
-    enemy.health = Math.max(0, enemy.health - damage);
-    // Result
-    console.log(
-      playerInfo.name +
-        " attacked " +
-        enemy.name +
-        ", and dealt " +
-        damage +
-        " to " +
-        enemy.name +
-        ", who now has " +
-        enemy.health +
-        " health remaining"
-    );
-    // Check Enemy Health
-    if (enemy.health <= 0) {
-      window.alert(enemy.name + " has died!");
-      playerInfo.money = playerInfo.money + 20;
-      break;
+      // Player Attack Phase
+      var damage = randomNumber(playerInfo.attack - 3, playerInfo.attack);
+      enemy.health = Math.max(0, enemy.health - damage);
+      // Result
+      console.log(
+        playerInfo.name +
+          " attacked " +
+          enemy.name +
+          ", and dealt " +
+          damage +
+          " to " +
+          enemy.name +
+          ", who now has " +
+          enemy.health +
+          " health remaining"
+      );
+      // Check Enemy Health
+      if (enemy.health <= 0) {
+        window.alert(enemy.name + " has died!");
+        playerInfo.money = playerInfo.money + 20;
+        break;
+      } else {
+        window.alert(
+          enemy.name + " still has " + enemy.health + " health left."
+        );
+      }
+      // enemy attacks first
     } else {
-      window.alert(enemy.name + " still has " + enemy.health + " health left.");
-    }
     // Enemy Attack Phase
     var damage = randomNumber(enemy.attack - 3, enemy.attack);
     playerInfo.health = Math.max(0, playerInfo.health - damage);
@@ -88,11 +98,13 @@ var fight = function (enemy) {
       break;
     } else {
       window.alert(
-        playerInfo.name + " still has " + playerInfo.health + " health left."
-      );
+        playerInfo.name + " still has " + playerInfo.health + " health left.");
+      }
     }
-  }
-};
+    //switch turn order next round
+    isPlayerTurn = !isPlayerTurn 
+  };
+}
 
 //function to start a new game
 var startGame = function () {
@@ -178,17 +190,16 @@ var shop = function () {
   }
 };
 
-var getPlayerName = function() {
+var getPlayerName = function () {
   var name = "";
 
   while (name === "" || name === null) {
-    name = prompt("what is your robot's name?")
+    name = prompt("what is your robot's name?");
   }
 
   console.log("Your robot's name is " + name);
   return name;
-}
-
+};
 
 var playerInfo = {
   name: getPlayerName(),
@@ -200,26 +211,24 @@ var playerInfo = {
     this.attack = 10;
     this.money = 10;
   },
-  refillHealth: function() {
+  refillHealth: function () {
     if (this.money >= 7) {
       window.alert("Refilling player's health by 20 for 7 dollars.");
       this.health += 20;
       this.money -= 7;
-    }
-    else {
+    } else {
       window.alert("You don't have enough money!");
     }
   },
-  upgradeAttack: function() {
+  upgradeAttack: function () {
     if (this.money >= 7) {
       window.alert("Upgrading player;s attack by 6 for 7 dollars.");
       this.attack += 6;
       this.money -= 7;
-    }
-    else {
+    } else {
       window.alert("You don't have enough money!");
     }
-  }
+  },
 };
 
 var enemyInfo = [
@@ -240,7 +249,7 @@ var enemyInfo = [
 console.log(enemyInfo);
 console.log(enemyInfo[0]);
 console.log(enemyInfo[0].name);
-console.log(enemyInfo[0]['attack']);
+console.log(enemyInfo[0]["attack"]);
 
 // start the game when the page loads
 startGame();
